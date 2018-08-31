@@ -1,11 +1,22 @@
 import React from 'react';
 
 import './Dates.css';
+import Events from './Events';
 
 const Dates = (props) => {
     const dates = getListofDays(props.currentDate);
 
+
     return dates.map(date => {
+        let todaysEvents;
+
+        try {
+            todaysEvents = props.events[date.getFullYear()][date.getMonth() + 1][date.getDate()];
+        }
+        catch(e) {
+            // console.log('TCL: catch -> e', e);
+        }
+
         return (
             <div className="date" key={date.toString()}>
                 <div className="dateNum">
@@ -13,9 +24,7 @@ const Dates = (props) => {
                 </div>
 
                 <div className="events">
-                    <div className="event">Event</div>
-                    <div className="event">Event</div>
-                    <div className="event">Event</div>
+                    <Events events={todaysEvents} />
                 </div>
             </div>
         );

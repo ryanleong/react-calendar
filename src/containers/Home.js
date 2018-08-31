@@ -12,8 +12,6 @@ class Home extends Component {
     constructor(props) {
         super(props);
 
-        // const currentDate = new Date();
-
         this.state = {
             events: {
                 1535730874055: {
@@ -22,8 +20,6 @@ class Home extends Component {
                     category: ''
                 }
             },
-            // today: currentDate,
-            // dates: this.getListofDays(currentDate),
         };
 
         this.handleNext = this.handleNext.bind(this);
@@ -60,7 +56,7 @@ class Home extends Component {
                     </div>
 
                     <div className="dates">
-                        <Dates currentDate={this.props.date.monthView} />
+                        <Dates currentDate={this.props.date.monthView} events={this.props.events} />
                     </div>
                 </div>
             </React.Fragment>
@@ -71,10 +67,12 @@ class Home extends Component {
 Home.propTypes = {
     goToMonthView: PropTypes.func,
     date: PropTypes.object,
+    events: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
     date: state.date,
+    events: state.events
 });
 
 export default connect(mapStateToProps, { goToMonthView })(Home);
