@@ -1,0 +1,27 @@
+.dates {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .date {
+        width: calc(100% / 7);
+        border: 1px solid #000;
+        height: calc((100vh - 67px) / 5);
+    }
+
+        .date .dateNum {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+        }
+
+.events {
+    margin-top: 25px;
+}
+
+    .event {
+        padding: 1px 4px;
+        background-color: aquamarine;
+        font-size: 14px;
+        margin-bottom: 3px;
+    }

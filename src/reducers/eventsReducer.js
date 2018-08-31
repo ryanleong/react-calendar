@@ -2,7 +2,7 @@ import { GET_EVENTS } from '../actions/types';
 
 const initialState = {};
 
-export default function (state = initialState, action) {
+export default (state = initialState, action) => {
     switch (action.type) {
 
     case GET_EVENTS:
@@ -11,4 +11,4 @@ export default function (state = initialState, action) {
     default:
         return state;
     }
-}
+};
