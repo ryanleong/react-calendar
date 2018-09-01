@@ -2,24 +2,7 @@ import _ from 'lodash';
 
 import { ADD_EVENT } from '../actions/types';
 
-const initialState = {
-    2018: {
-        9: {
-            15: {
-                29384: {
-                    name: 'My first event',
-                    location: '20 albert street',
-                    category: ''
-                },
-                25384: {
-                    name: 'My 2nd event',
-                    location: '20 albert street',
-                    category: ''
-                },
-            }
-        }
-    }
-};
+const initialState = JSON.parse(localStorage.getItem('eventData')) || {};
 
 const updateWithNewEvent = (state, action) => {
     const formData = action.payload;
@@ -28,7 +11,7 @@ const updateWithNewEvent = (state, action) => {
     const randomNumber = Math.floor(Math.random()*90000) + 10000;
     const date = new Date(formData.date);
 
-    return _.merge(state, {
+    const newState = _.merge(state, {
         [date.getFullYear()]: {
             [date.getMonth()+1]: {
                 [date.getDate()]: {
@@ -41,6 +24,10 @@ const updateWithNewEvent = (state, action) => {
             }
         }
     });
+
+    localStorage.setItem('eventData', JSON.stringify(newState));
+
+    return newState;
 };
 
 export default (state = initialState, action) => {
