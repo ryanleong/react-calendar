@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import './Home.css';
+import { editEvent } from '../actions/eventsActions';
+
 import Dates from '../components/Dates';
 import EventPopup from './EventPopup';
 
@@ -13,10 +15,12 @@ class Home extends Component {
 
         this.state = {
             formIsOpen: false,
+            isEditMode: false,
             dates: {
                 today: new Date(),
                 monthView: new Date()
-            }
+            },
+            currentEditEvent: {}
         };
 
         this.handleNext = this.handleNext.bind(this);
@@ -24,9 +28,10 @@ class Home extends Component {
 
         this.openAddEventForm = this.openAddEventForm.bind(this);
         this.closeAddEventForm = this.closeAddEventForm.bind(this);
+        this.handleEventEdit = this.handleEventEdit.bind(this);
     }
 
-    handlePrev(evt) {
+    handlePrev() {
         const today = this.state.dates.monthView;
         this.setState({
             dates: {
@@ -36,7 +41,7 @@ class Home extends Component {
         });
     }
 
-    handleNext(evt) {
+    handleNext() {
         const today = this.state.dates.monthView;
         this.setState({
             dates: {
@@ -52,7 +57,29 @@ class Home extends Component {
 
     closeAddEventForm() {
         this.setState({
-            formIsOpen: false
+            formIsOpen: false,
+            isEditMode: false,
+            currentEditEvent: {}
+        });
+    }
+
+    handleEventEdit(event, id, date) {
+        this.setState({
+            formIsOpen: true,
+            isEditMode: true,
+            currentEditEvent: {
+                event: event,
+                id: id,
+                date: date
+            }
+        });
+
+        // TODO: Check if event exist
+
+        this.props.editEvent({
+            event: event,
+            id: id,
+            date: date
         });
     }
 
@@ -78,11 +105,11 @@ class Home extends Component {
                     </div>
 
                     <div className="dates">
-                        <Dates currentDate={this.state.dates.monthView} events={this.props.events} />
+                        <Dates currentDate={this.state.dates.monthView} events={this.props.events.allEvents} eventOnClick={this.handleEventEdit} />
                     </div>
                 </div>
 
-                <EventPopup formIsOpen={this.state.formIsOpen} closeFormFunc={this.closeAddEventForm} />
+                <EventPopup formIsOpen={this.state.formIsOpen} isEditMode={this.state.isEditMode} closeFormFunc={this.closeAddEventForm} currentEditEvent={this.state.currentEditEvent} />
             </React.Fragment>
         );
     }
@@ -90,10 +117,11 @@ class Home extends Component {
 
 Home.propTypes = {
     events: PropTypes.object,
+    editEvent: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
     events: state.events
 });
 
-export default connect(mapStateToProps, { })(Home);
+export default connect(mapStateToProps, { editEvent })(Home);

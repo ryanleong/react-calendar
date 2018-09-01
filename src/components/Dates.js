@@ -24,7 +24,7 @@ const Dates = (props) => {
                 </div>
 
                 <div className="events">
-                    <Events events={todaysEvents} />
+                    <Events events={todaysEvents} dateToday={date} eventOnClick={props.eventOnClick} />
                 </div>
             </div>
         );

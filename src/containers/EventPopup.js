@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+import moment from 'moment';
 
 import './EventPopup.css';
 import { addEvent } from '../actions/eventsActions';
@@ -18,12 +20,13 @@ class EventPopup extends Component {
 
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleCloseForm = this.handleCloseForm.bind(this);
     }
 
     handleOnChange(evt) {
-        this.setState({
+        this.setState(_.merge(this.state, {
             [evt.target.id]: evt.target.value
-        });
+        }));
     }
 
     handleFormSubmit(evt) {
@@ -46,13 +49,43 @@ class EventPopup extends Component {
         this.props.closeFormFunc();
     }
 
+    static getDerivedStateFromProps(props, state) {
+
+        if (!_.isEmpty(props.currentEditEvent)) {
+            if (state.eventName === '' &&
+                state.date === '' &&
+                state.location === '') {
+
+                return {
+                    ...state,
+                    eventName: props.currentEditEvent.event.eventName,
+                    date: moment(props.currentEditEvent.date).format('YYYY-MM-DD'),
+                    location: props.currentEditEvent.event.location
+                };
+            }
+        }
+
+        return state;
+    }
+
+    handleCloseForm() {
+        this.setState({
+            eventName: '',
+            date: '',
+            location: ''
+        });
+
+        this.props.closeFormFunc();
+    }
+
     render() {
         const openClass = this.props.formIsOpen ? 'open' : '';
+        const deletebtn = this.props.isEditMode ? (<a className="btn btn-danger">Delete</a>) : '';
 
         return (
             <div id="EventPopup" className={openClass}>
 
-                <div className="close" onClick={this.props.closeFormFunc}>x</div>
+                <div className="close" onClick={this.handleCloseForm}>x</div>
 
                 <div className="eventpopup-wrapper">
 
@@ -84,7 +117,7 @@ class EventPopup extends Component {
 
                                     <button type="submit" className="btn btn-primary">Submit</button>
 
-                                    <a className="btn btn-danger">Delete</a>
+                                    {deletebtn}
                                 </form>
                             </div>
                         </div>
@@ -97,8 +130,10 @@ class EventPopup extends Component {
 
 EventPopup.propTypes = {
     formIsOpen: PropTypes.bool,
+    isEditMode: PropTypes.bool,
     closeFormFunc: PropTypes.func,
     addEvent: PropTypes.func,
+    currentEditEvent: PropTypes.object
 };
 
 export default connect(null, { addEvent })(EventPopup);

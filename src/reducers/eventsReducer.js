@@ -1,8 +1,11 @@
 import _ from 'lodash';
 
-import { ADD_EVENT } from '../actions/types';
+import { ADD_EVENT, EDIT_EVENT } from '../actions/types';
 
-const initialState = JSON.parse(localStorage.getItem('eventData')) || {};
+const initialState = {
+    currentEditEvent: {},
+    allEvents: JSON.parse(localStorage.getItem('eventData')) || {}
+};
 
 const updateWithNewEvent = (state, action) => {
     const formData = action.payload;
@@ -12,20 +15,22 @@ const updateWithNewEvent = (state, action) => {
     const date = new Date(formData.date);
 
     const newState = _.merge(state, {
-        [date.getFullYear()]: {
-            [date.getMonth()+1]: {
-                [date.getDate()]: {
-                    [randomNumber]: {
-                        name: formData.eventName,
-                        location: formData.location,
-                        category: ''
+        allEvents: {
+            [date.getFullYear()]: {
+                [date.getMonth()+1]: {
+                    [date.getDate()]: {
+                        [randomNumber]: {
+                            eventName: formData.eventName,
+                            location: formData.location,
+                            category: ''
+                        }
                     }
                 }
             }
         }
     });
 
-    localStorage.setItem('eventData', JSON.stringify(newState));
+    localStorage.setItem('eventData', JSON.stringify(newState.allEvents));
 
     return newState;
 };
@@ -35,6 +40,12 @@ export default (state = initialState, action) => {
 
     case ADD_EVENT:
         return updateWithNewEvent(state, action);
+
+    case EDIT_EVENT:
+        return {
+            ...state,
+            currentEditEvent: action.payload
+        };
 
     default:
         return state;
