@@ -1,0 +1,28 @@
+#EventPopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+    padding-top: 40px;
+    transition: 0.3s ease-in-out all;
+    opacity: 0;
+    pointer-events: none;
+}
+
+    #EventPopup.open {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    #EventPopup h2 {
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+    #EventPopup .close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }

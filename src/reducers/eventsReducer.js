@@ -1,4 +1,6 @@
-// import { ADD_EVENT } from '../actions/types';
+import _ from 'lodash';
+
+import { ADD_EVENT } from '../actions/types';
 
 const initialState = {
     2018: {
@@ -19,11 +21,33 @@ const initialState = {
     }
 };
 
+const updateWithNewEvent = (state, action) => {
+    const formData = action.payload;
+    if (formData === undefined || formData.date === '') return state;
+
+    const randomNumber = Math.floor(Math.random()*90000) + 10000;
+    const date = new Date(formData.date);
+
+    return _.merge(state, {
+        [date.getFullYear()]: {
+            [date.getMonth()+1]: {
+                [date.getDate()]: {
+                    [randomNumber]: {
+                        name: formData.eventName,
+                        location: formData.location,
+                        category: ''
+                    }
+                }
+            }
+        }
+    });
+};
+
 export default (state = initialState, action) => {
     switch (action.type) {
 
-    // case ADD_EVENT:
-    //     return (state.formIsOpen) ? { ...state, formIsOpen: false } : { ...state, formIsOpen: true };
+    case ADD_EVENT:
+        return updateWithNewEvent(state, action);
 
     default:
         return state;

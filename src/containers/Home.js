@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import './Home.css';
 import Dates from '../components/Dates';
+import EventPopup from './EventPopup';
 
 class Home extends Component {
 
@@ -22,6 +23,7 @@ class Home extends Component {
         this.handlePrev = this.handlePrev.bind(this);
 
         this.openAddEventForm = this.openAddEventForm.bind(this);
+        this.closeAddEventForm = this.closeAddEventForm.bind(this);
     }
 
     handlePrev(evt) {
@@ -46,6 +48,12 @@ class Home extends Component {
 
     openAddEventForm() {
         (this.state.formIsOpen) ? this.setState({ formIsOpen: false }) : this.setState({ formIsOpen: true });
+    }
+
+    closeAddEventForm() {
+        this.setState({
+            formIsOpen: false
+        });
     }
 
     render() {
@@ -73,6 +81,8 @@ class Home extends Component {
                         <Dates currentDate={this.state.dates.monthView} events={this.props.events} />
                     </div>
                 </div>
+
+                <EventPopup formIsOpen={this.state.formIsOpen} closeFormFunc={this.closeAddEventForm} />
             </React.Fragment>
         );
     }
