@@ -1,4 +1,4 @@
-import { GET_EVENTS } from '../actions/types';
+// import { ADD_EVENT } from '../actions/types';
 
 const initialState = {
     2018: {
@@ -22,8 +22,8 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
 
-    case GET_EVENTS:
-        return { ...state, [action.payload.id]: action.payload };
+    // case ADD_EVENT:
+    //     return (state.formIsOpen) ? { ...state, formIsOpen: false } : { ...state, formIsOpen: true };
 
     default:
         return state;

@@ -1,5 +1,5 @@
 export const ADD_EVENT = 'ADD_EVENT';
-export const GET_EVENTS = 'GET_EVENTS';
+export const OPEN_ADD_EVENT_POPUP = 'OPEN_ADD_EVENT_POPUP';
 
 export const SET_DATE = 'SET_DATE';
 export const GET_DATE = 'GET_DATE';

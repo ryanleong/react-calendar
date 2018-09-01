@@ -1,10 +1,10 @@
-import { GET_EVENTS } from './types';
+import { ADD_EVENT } from './types';
 
-export const getEvents = date => dispatch => {
+export const openAddEventPopup = () => dispatch => {
 
     dispatch({
-        type: GET_EVENTS,
-        payload: 'data'
+        type: ADD_EVENT,
+        payload: ''
     });
 
 };

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { goToMonthView } from '../actions/dateActions';
-
 import './Home.css';
 import Dates from '../components/Dates';
 
@@ -13,27 +11,41 @@ class Home extends Component {
         super(props);
 
         this.state = {
-            events: {
-                1535730874055: {
-                    name: 'My first event',
-                    location: '20 albert street',
-                    category: ''
-                }
-            },
+            formIsOpen: false,
+            dates: {
+                today: new Date(),
+                monthView: new Date()
+            }
         };
 
         this.handleNext = this.handleNext.bind(this);
         this.handlePrev = this.handlePrev.bind(this);
+
+        this.openAddEventForm = this.openAddEventForm.bind(this);
     }
 
     handlePrev(evt) {
-        const today = this.props.date.monthView;
-        this.props.goToMonthView(new Date(today.getFullYear(), today.getMonth() - 1, 1));
+        const today = this.state.dates.monthView;
+        this.setState({
+            dates: {
+                ...this.state.dates,
+                monthView: new Date(today.getFullYear(), today.getMonth() - 1, 1)
+            }
+        });
     }
 
     handleNext(evt) {
-        const today = this.props.date.monthView;
-        this.props.goToMonthView(new Date(today.getFullYear(), today.getMonth() + 1, 1));
+        const today = this.state.dates.monthView;
+        this.setState({
+            dates: {
+                ...this.state.dates,
+                monthView: new Date(today.getFullYear(), today.getMonth() + 1, 1)
+            }
+        });
+    }
+
+    openAddEventForm() {
+        (this.state.formIsOpen) ? this.setState({ formIsOpen: false }) : this.setState({ formIsOpen: true });
     }
 
     render() {
@@ -44,7 +56,7 @@ class Home extends Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-10">
-                            <h1 className="month">{monthNames[this.props.date.monthView.getMonth()]}</h1>
+                            <h1 className="month">{monthNames[this.state.dates.monthView.getMonth()]}</h1>
                         </div>
 
                         <div className="col-2">
@@ -52,11 +64,13 @@ class Home extends Component {
                                 <div className="prev" onClick={this.handlePrev}>{'<'}</div>
                                 <div className="next" onClick={this.handleNext}>{'>'}</div>
                             </div>
+
+                            <div id="addEvent" onClick={this.openAddEventForm}>+</div>
                         </div>
                     </div>
 
                     <div className="dates">
-                        <Dates currentDate={this.props.date.monthView} events={this.props.events} />
+                        <Dates currentDate={this.state.dates.monthView} events={this.props.events} />
                     </div>
                 </div>
             </React.Fragment>
@@ -65,14 +79,11 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-    goToMonthView: PropTypes.func,
-    date: PropTypes.object,
     events: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-    date: state.date,
     events: state.events
 });
 
-export default connect(mapStateToProps, { goToMonthView })(Home);
+export default connect(mapStateToProps, { })(Home);
