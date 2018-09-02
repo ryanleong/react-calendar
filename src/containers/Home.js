@@ -97,7 +97,7 @@ class Home extends Component {
                     </div>
 
                     <div className="dates">
-                        <Dates currentDate={this.state.dates.monthView} events={this.props.events.allEvents} eventOnClick={this.handleEventEdit} />
+                        <Dates currentDate={this.state.dates.monthView} events={this.props.events} eventOnClick={this.handleEventEdit} />
                     </div>
                 </div>
 

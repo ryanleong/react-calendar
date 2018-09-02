@@ -5,15 +5,13 @@ export const addEvent = formData => dispatch => {
     const date = new Date(formData.date);
 
     const data =  {
-        allEvents: {
-            [date.getFullYear()]: {
-                [date.getMonth()+1]: {
-                    [date.getDate()]: {
-                        [randomNumber]: {
-                            eventName: formData.eventName,
-                            location: formData.location,
-                            category: ''
-                        }
+        [date.getFullYear()]: {
+            [date.getMonth()+1]: {
+                [date.getDate()]: {
+                    [randomNumber]: {
+                        eventName: formData.eventName,
+                        location: formData.location,
+                        category: ''
                     }
                 }
             }
