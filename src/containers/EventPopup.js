@@ -5,7 +5,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import './EventPopup.css';
-import { addEvent, deleteEvent } from '../actions/eventsActions';
+import { addEvent, deleteEvent, editEvent } from '../actions/eventsActions';
 
 class EventPopup extends Component {
 
@@ -58,7 +58,13 @@ class EventPopup extends Component {
             this.state.location === '' || this.state.location === undefined
         ) { return; }
 
-        this.props.addEvent(this.state);
+        if (this.props.isEditMode) {
+            this.props.editEvent(this.state, this.props.currentEditEvent);
+        }
+        else {
+            this.props.addEvent(this.state);
+        }
+
 
         this.setState({
             eventName: '',
@@ -141,7 +147,8 @@ EventPopup.propTypes = {
     closeFormFunc: PropTypes.func,
     addEvent: PropTypes.func,
     deleteEvent: PropTypes.func,
+    editEvent: PropTypes.func,
     currentEditEvent: PropTypes.object
 };
 
-export default connect(null, { addEvent, deleteEvent })(EventPopup);
+export default connect(null, { addEvent, deleteEvent, editEvent })(EventPopup);

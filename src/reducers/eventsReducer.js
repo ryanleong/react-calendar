@@ -29,6 +29,23 @@ const deleteEvent = (state, event) => {
     }
 };
 
+const editEvent = (state, payload) => {
+    try {
+        let newState = { ...state };
+
+        const prevEventDate = payload.prevEvent.date;
+        delete newState['allEvents'][prevEventDate.getFullYear()][prevEventDate.getMonth()+1][prevEventDate.getDate()][payload.eventId];
+
+        newState = _.merge(newState, { allEvents: payload.changes });
+        localStorage.setItem('eventData', JSON.stringify(newState.allEvents));
+
+        return newState;
+    }
+    catch(e) {
+        return state;
+    }
+};
+
 export default (state = initialState, action) => {
     switch (action.type) {
 
@@ -39,10 +56,8 @@ export default (state = initialState, action) => {
         return deleteEvent(state, action.payload);
 
     case EDIT_EVENT:
-        return {
-            ...state,
-            currentEditEvent: action.payload
-        };
+        return editEvent(state, action.payload);
+        // return state;
 
     default:
         return state;

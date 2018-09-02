@@ -73,14 +73,6 @@ class Home extends Component {
                 date: date
             }
         });
-
-        // TODO: Check if event exist
-
-        this.props.editEvent({
-            event: event,
-            id: id,
-            date: date
-        });
     }
 
     render() {

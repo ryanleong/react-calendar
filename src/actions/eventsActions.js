@@ -34,7 +34,28 @@ export const deleteEvent = event => dispatch => {
 };
 
 
-export const editEvent = data => dispatch => {
+export const editEvent = (formData, event) => dispatch => {
+
+    const date = new Date(formData.date);
+
+    const data =  {
+        prevEvent: event,
+        eventId: event.id,
+        changes: {
+            [date.getFullYear()]: {
+                [date.getMonth()+1]: {
+                    [date.getDate()]: {
+                        [event.id]: {
+                            eventName: formData.eventName,
+                            location: formData.location,
+                            category: ''
+                        }
+                    }
+                }
+            }
+        }
+    };
+
     dispatch({
         type: EDIT_EVENT,
         payload: data
