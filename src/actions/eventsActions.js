@@ -1,4 +1,4 @@
-import { ADD_EVENT, EDIT_EVENT } from './types';
+import { ADD_EVENT, EDIT_EVENT, DELETE_EVENT } from './types';
 
 export const addEvent = formData => dispatch => {
     const randomNumber = Math.floor(Math.random()*90000) + 10000;
@@ -25,6 +25,14 @@ export const addEvent = formData => dispatch => {
         payload: data
     });
 };
+
+export const deleteEvent = event => dispatch => {
+    dispatch({
+        type: DELETE_EVENT,
+        payload: event
+    });
+};
+
 
 export const editEvent = data => dispatch => {
     dispatch({

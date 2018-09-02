@@ -5,7 +5,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import './EventPopup.css';
-import { addEvent } from '../actions/eventsActions';
+import { addEvent, deleteEvent } from '../actions/eventsActions';
 
 class EventPopup extends Component {
 
@@ -21,6 +21,26 @@ class EventPopup extends Component {
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleCloseForm = this.handleCloseForm.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+
+        if (!_.isEmpty(props.currentEditEvent)) {
+            if (state.eventName === '' &&
+                state.date === '' &&
+                state.location === '') {
+
+                return {
+                    ...state,
+                    eventName: props.currentEditEvent.event.eventName,
+                    date: moment(props.currentEditEvent.date).format('YYYY-MM-DD'),
+                    location: props.currentEditEvent.event.location
+                };
+            }
+        }
+
+        return state;
     }
 
     handleOnChange(evt) {
@@ -49,25 +69,6 @@ class EventPopup extends Component {
         this.props.closeFormFunc();
     }
 
-    static getDerivedStateFromProps(props, state) {
-
-        if (!_.isEmpty(props.currentEditEvent)) {
-            if (state.eventName === '' &&
-                state.date === '' &&
-                state.location === '') {
-
-                return {
-                    ...state,
-                    eventName: props.currentEditEvent.event.eventName,
-                    date: moment(props.currentEditEvent.date).format('YYYY-MM-DD'),
-                    location: props.currentEditEvent.event.location
-                };
-            }
-        }
-
-        return state;
-    }
-
     handleCloseForm() {
         this.setState({
             eventName: '',
@@ -78,9 +79,15 @@ class EventPopup extends Component {
         this.props.closeFormFunc();
     }
 
+    handleDelete() {
+        this.props.deleteEvent(this.props.currentEditEvent);
+
+        this.props.closeFormFunc();
+    }
+
     render() {
         const openClass = this.props.formIsOpen ? 'open' : '';
-        const deletebtn = this.props.isEditMode ? (<a className="btn btn-danger">Delete</a>) : '';
+        const deletebtn = this.props.isEditMode ? (<a className="btn btn-danger" onClick={this.handleDelete}>Delete</a>) : '';
 
         return (
             <div id="EventPopup" className={openClass}>
@@ -133,7 +140,8 @@ EventPopup.propTypes = {
     isEditMode: PropTypes.bool,
     closeFormFunc: PropTypes.func,
     addEvent: PropTypes.func,
+    deleteEvent: PropTypes.func,
     currentEditEvent: PropTypes.object
 };
 
-export default connect(null, { addEvent })(EventPopup);
+export default connect(null, { addEvent, deleteEvent })(EventPopup);
