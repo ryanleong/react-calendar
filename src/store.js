@@ -10,12 +10,16 @@ const initialState = {};
 // List of Middlewards
 const middleware = [thunk];
 
+const reduxDebugger = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
+    ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    : f => f;
+
 const store = createStore(
     rootReducer,
     initialState,
     compose(
         applyMiddleware(...middleware),
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), // For Redux DevTools in Chrome
+        reduxDebugger, // For Redux DevTools in Chrome
     ),
 );
 
