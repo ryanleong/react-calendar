@@ -7,16 +7,18 @@ import moment from 'moment';
 import './EventPopup.css';
 import { addEvent, deleteEvent, editEvent } from '../actions/eventsActions';
 
+const INITIAL_STATE = {
+    eventName: '',
+    date: '',
+    location: ''
+};
+
 class EventPopup extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {
-            eventName: '',
-            date: '',
-            location: ''
-        };
+        this.state = { ...INITIAL_STATE };
 
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -66,29 +68,21 @@ class EventPopup extends Component {
         }
 
 
-        this.setState({
-            eventName: '',
-            date: '',
-            location: ''
-        });
+        this.setState({ ...INITIAL_STATE });
 
         this.props.closeFormFunc();
     }
 
     handleCloseForm() {
-        this.setState({
-            eventName: '',
-            date: '',
-            location: ''
-        });
-
+        this.setState({ ...INITIAL_STATE });
         this.props.closeFormFunc();
     }
 
     handleDelete() {
         this.props.deleteEvent(this.props.currentEditEvent);
-
         this.props.closeFormFunc();
+        this.setState({ ...INITIAL_STATE });
+
     }
 
     render() {
