@@ -1,3 +1,23 @@
+.calendar-header {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.calendar-nav {
+    display: flex;
+}
+
+    .calendar-nav_arrow {
+        cursor: pointer;
+        font-size: 30px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .calendar-nav_plus {
+        margin-left: 15px;
+    }
+
 .month {
     font-size: 40px;
     margin-bottom: 7px;

@@ -81,18 +81,21 @@ class Home extends Component {
         return (
             <React.Fragment>
                 <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-10">
+                    <div className="row calendar-header">
+                        <div className="col-md-6">
                             <h1 className="month">{monthNames[this.state.dates.monthView.getMonth()]}</h1>
                         </div>
 
-                        <div className="col-2">
+                        <div className="col-md-6 calendar-nav justify-content-md-end">
                             <div className="month-change">
-                                <div className="prev" onClick={this.handlePrev}>{'<'}</div>
-                                <div className="next" onClick={this.handleNext}>{'>'}</div>
+                                <div className="prev calendar-nav_arrow" onClick={this.handlePrev}>{'<'}</div>
+                                <div className="next calendar-nav_arrow" onClick={this.handleNext}>{'>'}</div>
                             </div>
 
-                            <div id="addEvent" onClick={this.openAddEventForm}>+</div>
+                            <div>
+                                <div id="addEvent" className="calendar-nav_plus btn btn-primary" onClick={this.openAddEventForm}>Add event</div>
+                            </div>
+
                         </div>
                     </div>
 

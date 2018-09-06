@@ -6,7 +6,13 @@
     .date {
         width: calc(100% / 7);
         border: 1px solid #000;
-        height: calc((100vh - 67px) / 5);
+        height: 60px;
+    }
+
+    @media (min-width: 768px) {
+        .date {
+            height: calc((100vh - 130px) / 5);
+        }
     }
 
         .date .dateNum {
