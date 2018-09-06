@@ -65,6 +65,8 @@ body * {
     line-height: normal;
     letter-spacing: normal;
 
+    font-family: 'Montserrat', sans-serif;
+
     /* &:focus {
         outline: none;
         outline-offset: initial;

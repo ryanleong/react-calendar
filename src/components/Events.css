@@ -1,0 +1,10 @@
+.events {
+    margin-top: 25px;
+}
+
+    .event {
+        padding: 1px 4px;
+        background-color: #74d3ff;
+        font-size: 14px;
+        margin-bottom: 3px;
+    }
